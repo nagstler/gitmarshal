@@ -4,5 +4,6 @@ require_relative "gitmarshal/version"
 
 module Gitmarshal
   class Error < StandardError; end
-  # Your code goes here...
+  
+  GITHUB_TOKEN = ENV['GITHUB_TOKEN']
 end

@@ -33,6 +33,11 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency 'json', '~> 2.5'
+  spec.add_dependency 'rest-client', '~> 2.1'
+  spec.add_dependency 'dotenv', '~> 2.7'
+  spec.add_dependency 'thor', '~> 1.1'
+
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
