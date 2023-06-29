@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'dotenv', '~> 2.7'
   spec.add_dependency 'thor', '~> 1.1'
   spec.add_dependency 'terminal-table', '~> 3.0.0'
+  spec.add_dependency 'colorize'
 
 
   # For more information and examples about making a new gem, check out our

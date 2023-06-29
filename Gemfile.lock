@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     gitmarshal (0.1.0)
+      colorize
       dotenv (~> 2.7)
       json (~> 2.5)
       rest-client (~> 2.1)
@@ -12,6 +13,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    colorize (1.1.0)
     diff-lcs (1.5.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
