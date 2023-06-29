@@ -29,10 +29,14 @@ module GitMarshal
 
         if today_commits.size > 0
           latest_commit = commits.first
+          open_prs = fetch_pull_requests_for_repo(user["login"], repo["name"]).select { |pr| pr['state'] == 'open' }.count
+          open_issues = fetch_issues_for_repo(user["login"], repo["name"]).select { |issue| issue['state'] == 'open' }.count
 
           rows = [
             ['Commits Today', today_commits.size],
             ['Total Commits', commits.size],
+            ['Open Pull Requests', open_prs],
+            ['Open Issues', open_issues],
             ['Latest Commit Message', latest_commit['commit']['message']],
             ['Latest Commit Date', Date.parse(latest_commit['commit']['author']['date'])]
           ]
@@ -60,6 +64,16 @@ module GitMarshal
 
     def fetch_commits_for_repo(username, repo_name)
       response = RestClient.get("#{GITHUB_API_BASE_URL}/repos/#{username}/#{repo_name}/commits", headers)
+      JSON.parse(response.body)
+    end
+
+    def fetch_pull_requests_for_repo(username, repo_name)
+      response = RestClient.get("#{GITHUB_API_BASE_URL}/repos/#{username}/#{repo_name}/pulls", headers)
+      JSON.parse(response.body)
+    end
+
+    def fetch_issues_for_repo(username, repo_name)
+      response = RestClient.get("#{GITHUB_API_BASE_URL}/repos/#{username}/#{repo_name}/issues", headers)
       JSON.parse(response.body)
     end
 
