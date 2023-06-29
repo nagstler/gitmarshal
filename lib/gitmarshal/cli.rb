@@ -1,51 +1,23 @@
 require 'thor'
-require 'json'
-require 'rest-client'
 require 'date'
 require 'terminal-table'
 require 'colorize'
+require_relative 'github_fetcher'
 
 module GitMarshal
   class CLI < Thor
-    GITHUB_API_BASE_URL = "https://api.github.com"
-
     desc "today", "Prints a summary of the authenticated user's GitHub activities and contributions for the current day"
+    method_option :repo, aliases: "-r", desc: "Specify a single repository name"
     def today
-      user = fetch_user
-      repos = fetch_repos(user["login"])
-    
+      fetcher = GithubFetcher.new
+      user = fetcher.fetch_user
+      repos = options[:repo] ? [fetcher.fetch_repo(user["login"], options[:repo])] : fetcher.fetch_repos(user["login"])
+      
       puts "GitHub Daily Activity Snapshot for #{user['login']}".colorize(:blue).bold
       puts "Date: #{Date.today}"
-      
+
       repos.each do |repo|
-        commits = fetch_commits_for_repo(user["login"], repo["name"])
-    
-        today_commits = commits.select do |commit|
-          commit_author = commit['commit']['author']['name']
-          commit_date = Date.parse(commit['commit']['author']['date'])
-          commit_author == user['name'] && commit_date == Date.today
-        end
-    
-        if today_commits.size > 0
-          latest_commit = commits.first
-          open_prs = fetch_pull_requests_for_repo(user["login"], repo["name"]).select { |pr| pr['state'] == 'open' }.count
-          open_issues = fetch_issues_for_repo(user["login"], repo["name"]).select { |issue| issue['state'] == 'open' }.count
-    
-          rows = [
-            ['Commits Today', today_commits.size],
-            ['Total Commits', commits.size],
-            ['Open Pull Requests', open_prs],
-            ['Open Issues', open_issues]
-          ]
-    
-          puts "\nRepository: #{repo['name']}".colorize(:yellow).bold
-          puts "Latest Commit Message: #{latest_commit['commit']['message']}".colorize(:cyan)
-          puts "Latest Commit Date: #{Date.parse(latest_commit['commit']['author']['date'])}".colorize(:cyan)
-          
-          table = Terminal::Table.new :title => "Repo Summary of the Day".colorize(:green), :headings => ['Item', 'Count'].map { |i| i.colorize(:magenta) }, :rows => rows
-          table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
-          puts table
-        end
+        process_repo(fetcher, user, repo) if repo
       end
     end
 
@@ -53,33 +25,56 @@ module GitMarshal
 
     private
 
-    def fetch_user
-      response = RestClient.get("#{GITHUB_API_BASE_URL}/user", headers)
-      JSON.parse(response.body)
+    def process_repo(fetcher, user, repo)
+      commits = fetcher.fetch_commits_for_repo(user["login"], repo["name"])
+      languages = fetcher.fetch_languages_for_repo(user["login"], repo["name"]).keys.join(', ')
+      today_commits = fetcher.fetch_commits_for_today(user["login"], repo["name"])
+
+      if today_commits.size > 0
+        display_summary_of_the_day(fetcher, user, repo, commits, languages, today_commits)
+        display_detailed_repo_metrics(fetcher, user, repo, commits)
+      end
     end
 
-    def fetch_repos(username)
-      response = RestClient.get("#{GITHUB_API_BASE_URL}/users/#{username}/repos", headers)
-      JSON.parse(response.body)
+    def display_summary_of_the_day(fetcher, user, repo, commits, languages, today_commits)
+      latest_commit = commits.first
+      pr_raised_today = fetcher.fetch_pull_requests_for_today(user["login"], repo["name"]).count
+      build_status = fetcher.fetch_build_status(user["login"], repo["name"])
+
+      rows = [
+        ['Commits Today', today_commits.size],
+        ['PRs Raised Today', pr_raised_today]
+      ]
+
+      puts "\nRepository: #{repo['name']}".colorize(:yellow).bold
+      puts "Languages:".colorize(:cyan)+" #{languages}"
+      puts "Latest Commit Message:".colorize(:cyan)
+      puts "#{latest_commit['commit']['message']}"
+      puts "Latest Commit Date:".colorize(:cyan)+" #{Date.parse(latest_commit['commit']['author']['date'])}"
+      puts "Build Status:".colorize(:cyan)+" #{build_status}"
+      table = Terminal::Table.new :title => "Repo Summary of the Day".colorize(:green), :headings => ['Item', 'Count'].map { |i| i.colorize(:magenta) }, :rows => rows
+      table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
+      puts table
     end
 
-    def fetch_commits_for_repo(username, repo_name)
-      response = RestClient.get("#{GITHUB_API_BASE_URL}/repos/#{username}/#{repo_name}/commits", headers)
-      JSON.parse(response.body)
-    end
+    def display_detailed_repo_metrics(fetcher, user, repo, commits)
+      stargazers = fetcher.fetch_stargazers_for_repo(user["login"], repo["name"]).count
+      forks = fetcher.fetch_forks_for_repo(user["login"], repo["name"]).count
+      total_contributors = fetcher.fetch_contributors_for_repo(user["login"], repo["name"]).count
+      open_prs = fetcher.fetch_pull_requests_for_repo(user["login"], repo["name"]).select { |pr| pr['state'] == 'open' }.count
+      open_issues = fetcher.fetch_issues_for_repo(user["login"], repo["name"]).select { |issue| issue['state'] == 'open' }.count
 
-    def fetch_pull_requests_for_repo(username, repo_name)
-      response = RestClient.get("#{GITHUB_API_BASE_URL}/repos/#{username}/#{repo_name}/pulls", headers)
-      JSON.parse(response.body)
-    end
-
-    def fetch_issues_for_repo(username, repo_name)
-      response = RestClient.get("#{GITHUB_API_BASE_URL}/repos/#{username}/#{repo_name}/issues", headers)
-      JSON.parse(response.body)
-    end
-
-    def headers
-      { Authorization: "Bearer #{ENV['GITHUB_TOKEN']}" }
+      additional_rows = [
+        ['Total Commits', commits.size],
+        ['Stargazers', stargazers],
+        ['Forks', forks],
+        ['Total Contributors', total_contributors],
+        ['Open Pull Requests', open_prs],
+        ['Open Issues', open_issues]
+      ]
+      additional_table = Terminal::Table.new :title => "Detailed Repo Metrics".colorize(:green), :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta) }, :rows => additional_rows
+      additional_table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
+      puts additional_table
     end
   end
 end
