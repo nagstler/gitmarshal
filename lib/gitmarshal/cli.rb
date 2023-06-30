@@ -9,17 +9,33 @@ module GitMarshal
 
     desc "repos", "Prints a summary of the authenticated user's GitHub repositories"
     def repos
-      fetcher = GithubFetcher.new
-      user = fetcher.fetch_user
-      repos = fetcher.fetch_repos
-
-      puts "GitHub Repositories for #{user}".colorize(:blue).bold
-
-      rows = repos.map { |repo| [repo['name'], repo['description']] }
-      table = Terminal::Table.new :title => "Repositories".colorize(:green), :headings => ['Name', 'Description'].map { |i| i.colorize(:magenta) }, :rows => rows
-      table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
-      puts table
+      begin
+        fetcher = GithubFetcher.new
+        user = fetcher.fetch_user
+        repos = fetcher.fetch_repos
+    
+        puts "GitHub Repositories for #{user}".colorize(:blue).bold
+    
+        rows = repos.map do |repo|
+          [
+            repo['name'],
+            repo['issues'],
+            repo['stargazers'],
+            repo['forks']
+          ]
+        end
+    
+        table = Terminal::Table.new :title => "Repositories".colorize(:green),
+                                    :headings => ['Name', 'Issues', 'Stargazers', 'Forks'].map { |i| i.colorize(:magenta) },
+                                    :rows => rows
+    
+        table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
+        puts table
+      rescue StandardError => e
+        puts "An error occurred: #{e.message}"
+      end
     end
+    
 
     def help(*)
       puts "You can either call ./bin/gitmarshal to list all repositories or ./bin/gitmarshal repo-name to show the metrics of the given repository."
