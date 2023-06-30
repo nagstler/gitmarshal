@@ -1,4 +1,5 @@
 # GitMarshal
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Maintainability](https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability)](https://codeclimate.com/github/nagstler/gitmarshal/maintainability)
 
 GitMarshal is a command-line application that fetches and displays various metrics about your GitHub repositories. This includes details such as repository number of commits, pull requests, issues, and contributors. 
 
