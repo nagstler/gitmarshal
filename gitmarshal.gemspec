@@ -24,16 +24,17 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
 
   spec.files = Dir.glob("{bin,lib}/**/*") + ["gitmarshal.gemspec", "README.md"]
-  spec.bindir = "exe"
+  spec.bindir = "bin"
   spec.executables = ["gitmarshal"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "json", "~> 2.5"
   spec.add_dependency "thor", "~> 1.1"
   spec.add_dependency "terminal-table", "~> 3.0.0"
-  spec.add_dependency "colorize"
-  spec.add_dependency "octokit"
-  spec.add_dependency "faraday-retry"
+  spec.add_dependency 'colorize', '~> 0.8'
+  spec.add_dependency 'octokit', '~> 4.0'
+  spec.add_dependency 'faraday-retry', '~> 2.0'
+
 
   # Add any additional dependencies required by your gem
 
