@@ -25,8 +25,8 @@ module GitMarshal
           ]
         end
     
-        table = Terminal::Table.new :title => "Repositories".colorize(:green),
-                                    :headings => ['Name', 'Issues', 'Stargazers', 'Forks'].map { |i| i.colorize(:magenta) },
+        table = Terminal::Table.new :title => "Repositories".colorize(:green).bold,
+                                    :headings => ['Name', 'Issues', 'Stargazers', 'Forks'].map { |i| i.colorize(:magenta).bold },
                                     :rows => rows
     
         table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
@@ -50,12 +50,12 @@ module GitMarshal
       repo = fetcher.fetch_repo_metrics(user, repo_name)
     
       # Print repository name and other details as introduction
-      puts "GitHub Repository: #{repo['name']}".colorize(:yellow).bold
+      puts "GitHub Repository: #{repo['name']}".colorize(:blue).bold
       puts "Description: #{repo['description']}"
       puts "Default Branch: #{repo['default_branch']}"
       puts "Last Updated At: #{repo['last_updated_at']}"
 
-      puts "------------------------------------"
+      puts "x======================================x"
 
       # Display latest commit
       latest_commit = fetcher.fetch_latest_commit(user, repo_name)
@@ -63,7 +63,7 @@ module GitMarshal
         puts "Latest Commit:".colorize(:green).bold
         puts "Commit Date: #{latest_commit['commit']['committer']['date']}"
         puts "Commit Message: #{latest_commit['commit']['message']}"
-        puts "------------------------------------"
+        puts "x======================================x"
       end
       
       # Display repository metrics in a table
@@ -97,7 +97,7 @@ module GitMarshal
         ['Today\'s Open Issues', fetcher.fetch_today_open_issues_count(user, repo_name)]
       ]
 
-      today_table = Terminal::Table.new :title => "Today's Repository Metrics".colorize(:green), :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta) }, :rows => today_rows
+      today_table = Terminal::Table.new :title => "Today's Repository Metrics".colorize(:green).bold, :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta).bold }, :rows => today_rows
       today_table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
       puts today_table
     end
