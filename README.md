@@ -1,22 +1,69 @@
-# Gitmarshal
+# GitMarshal
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gitmarshal`. To experiment with that code, run `bin/console` for an interactive prompt.
+GitMarshal is a command-line application that fetches and displays various metrics about your GitHub repositories. This includes details such as repository number of commits, pull requests, issues, and contributors. 
 
-TODO: Delete this and the text above, and describe your gem
+## Prerequisites
+
+Ensure you have Ruby installed in your system. You can check this by running the following command in your terminal:
+
+```
+ruby -v
+```
+
+You should see Ruby's version if it's installed.
+
+You also need to generate a GitHub access token. Follow these steps to generate it:
+- Visit the following URL: https://github.com/settings/tokens/new
+- Enter a Note (can be anything, e.g., "For GitMarshal").
+- Under "Select scopes", check the "repo" option.
+- Click on "Generate token" at the bottom.
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Clone this repository to your local system.
 
-    $ bundle add gitmarshal
+```
+git clone https://github.com/<your-username>/gitmarshal.git
+cd gitmarshal
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Install the required gems by running the following command:
 
-    $ gem install gitmarshal
+```
+bundle install
+```
+
+## Configuration
+
+To configure GitMarshal, you need to provide it with your GitHub access token. 
+
+Create a `.env` file in the project root and add your GitHub token:
+
+```
+GITHUB_TOKEN=your_github_token_here
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### List Repositories
+
+To fetch and display a summary of your GitHub repositories, run:
+
+```
+./bin/gitmarshal
+```
+
+This will display a list of your repositories along with the number of issues, stargazers, and forks for each one.
+
+### Fetch Repository Metrics
+
+To fetch and display metrics for a specific repository, use:
+
+```
+./bin/gitmarshal <repo-name>
+```
+
+Replace `<repo-name>` with the name of your repository.
 
 ## Development
 
@@ -26,12 +73,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/gitmarshal. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/gitmarshal/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/nagstler/gitmarshal. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/nagstler/gitmarshal/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Gitmarshal project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/gitmarshal/blob/main/CODE_OF_CONDUCT.md).
