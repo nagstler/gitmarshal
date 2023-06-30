@@ -53,8 +53,6 @@ module GitMarshal
       puts "GitHub Repository: #{repo['name']}".colorize(:yellow).bold
       puts "Description: #{repo['description']}"
       puts "Default Branch: #{repo['default_branch']}"
-      puts ["Languages: #{repo['languages'] ? repo['languages'].join(', ') : 'N/A'}"]
-      puts ["License: #{repo['license'] ? repo['license']['name'] : 'N/A'}"]
       puts "Last Updated At: #{repo['last_updated_at']}"
 
       puts "------------------------------------"
