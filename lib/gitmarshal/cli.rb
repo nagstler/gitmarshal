@@ -46,26 +46,66 @@ module GitMarshal
     def metrics(repo_name)
       fetcher = GithubFetcher.new
       user = fetcher.fetch_user
-
+    
       repo = fetcher.fetch_repo_metrics(user, repo_name)
+    
+      # Print repository name and other details as introduction
+      puts "GitHub Repository: #{repo['name']}".colorize(:yellow).bold
+      puts "Description: #{repo['description']}"
+      puts "Default Branch: #{repo['default_branch']}"
+      puts ["Languages: #{repo['languages'] ? repo['languages'].join(', ') : 'N/A'}"]
+      puts ["License: #{repo['license'] ? repo['license']['name'] : 'N/A'}"]
+      puts "Last Updated At: #{repo['last_updated_at']}"
 
-      puts "GitHub Repository Metrics for #{repo_name}".colorize(:blue).bold
+      puts "------------------------------------"
 
+      # Display latest commit
+      latest_commit = fetcher.fetch_latest_commit(user, repo_name)
+      if latest_commit
+        puts "Latest Commit:".colorize(:green).bold
+        puts "Commit Date: #{latest_commit['commit']['committer']['date']}"
+        puts "Commit Message: #{latest_commit['commit']['message']}"
+        puts "------------------------------------"
+      end
+      
+      # Display repository metrics in a table
       rows = [
-        ['Description', repo['data']['repository']['description']],
-        ['Total Commits', repo['data']['repository']['ref']['target']['history']['edges'].count],
-        ['Pull Requests', repo['data']['repository']['pullRequests']['totalCount']],
-        ['Issues', repo['data']['repository']['issues']['totalCount']],
-        ['Stargazers', repo['data']['repository']['stargazers']['totalCount']],
-        ['Forks', repo['data']['repository']['forks']['totalCount']],
-        ['Languages', repo['data']['repository']['languages']['edges'].map{|lang| lang['node']['name']}.join(', ')]
+        ['Watchers', repo['watchers_count']],
+        ['Forks', repo['forks_count']],
+        ['Open Issues', repo['open_issues_count']],
+        ['Total Commits', repo['commits_count']],
+        ['Pull Requests', repo['pull_requests_count']],
+        ['Closed Pull Requests', repo['closed_pull_requests_count']],
+        ['Open Pull Requests', repo['open_pull_requests_count']],
+        ['Issues', repo['issues_count']],
+        ['Closed Issues', repo['closed_issues_count']],
+        ['Open Issues', repo['open_issues_count']],
+        ['Stargazers', repo['stargazers_count']],
+        ['Contributors', repo['contributors_count']],
       ]
-
-      table = Terminal::Table.new :title => "Repository Metrics".colorize(:green), :headings => ['Metric', 'Value'].map { |i| i.colorize(:magenta) }, :rows => rows
+    
+      table = Terminal::Table.new :title => "Repository Metrics".colorize(:green).bold, :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta).bold }, :rows => rows
       table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
       puts table
-    end
 
+      # Display today's repository metrics in a table
+      today_rows = [
+        ['Today\'s Total Commits', fetcher.fetch_today_commits_count(user, repo_name)],
+        ['Today\'s Pull Requests', fetcher.fetch_today_pull_requests_count(user, repo_name)],
+        ['Today\'s Closed Pull Requests', fetcher.fetch_today_closed_pull_requests_count(user, repo_name)],
+        ['Today\'s Open Pull Requests', fetcher.fetch_today_open_pull_requests_count(user, repo_name)],
+        ['Today\'s Issues', fetcher.fetch_today_issues_count(user, repo_name)],
+        ['Today\'s Closed Issues', fetcher.fetch_today_closed_issues_count(user, repo_name)],
+        ['Today\'s Open Issues', fetcher.fetch_today_open_issues_count(user, repo_name)]
+      ]
+
+      today_table = Terminal::Table.new :title => "Today's Repository Metrics".colorize(:green), :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta) }, :rows => today_rows
+      today_table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
+      puts today_table
+    end
+    
+    
+    
     def method_missing(method, *_args, &_block)
       if method =~ /[-a-zA-Z0-9_.]+/
         metrics(method.to_s)
