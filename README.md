@@ -1,7 +1,7 @@
 # GitMarshal
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Maintainability](https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability)](https://codeclimate.com/github/nagstler/gitmarshal/maintainability)
 
-GitMarshal is a powerful Ruby gem that serves as a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
+GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
 
 Whether you're a developer interested in the activity of a repository or a manager tracking the progress of your project, GitMarshal provides an easy way to fetch this data directly from your command line.
 
@@ -107,12 +107,12 @@ For a more interactive development experience, start a console with:
 bin/console
 ```
 
-
 ## Contributing
 
 Your contributions to further improve GitMarshal are most welcome. Whether it's reporting a bug or proposing a new feature, you can help enhance this tool. Feel free to create bug reports and pull requests on our GitHub page at [https://github.com/nagstler/gitmarshal](https://github.com/nagstler/gitmarshal) .
 
 We aim to maintain a welcoming and inclusive environment for collaboration, and all contributors are expected to adhere to the [Contributor Covenant](https://www.contributor-covenant.org/)  code of conduct.
+
 ## License
 
 GitMarshal is open-source and available under the terms of the [MIT License](https://opensource.org/licenses/MIT) .
