@@ -16,14 +16,14 @@ Gem::Specification.new do |spec|
   DESC
   spec.homepage      = "https://github.com/nagstler/gitmarshal"
   spec.license       = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
 
-  spec.metadata["allowed_push_host"] = "https://github.com/nagstler/gitmarshal"
-
+  spec.metadata["allowed_push_host"] = "https://rubygems.org"
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/nagstler/gitmarshal"
+  spec.metadata["changelog_uri"] = "https://github.com/nagstler/gitmarshal/blob/main/CHANGELOG.md"
 
-  spec.files = Dir.glob("{bin,lib}/**/*") + ["gitmarshal.gemspec", "README.md"]
+  spec.files = Dir.glob("{bin,lib}/**/*", File::FNM_DOTMATCH) + ["gitmarshal.gemspec", "README.md"]
   spec.bindir = "bin"
   spec.executables = ["gitmarshal"]
   spec.require_paths = ["lib"]
@@ -35,11 +35,28 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'octokit', '~> 4.0'
   spec.add_dependency 'faraday-retry', '~> 2.0'
 
+  # Development Dependencies
+  spec.add_development_dependency "rspec", "~> 3.10"
+  spec.add_development_dependency "rubocop", "~> 1.22"
+  
+  spec.post_install_message = <<-MSG
 
-  # Add any additional dependencies required by your gem
+#################################################################
+##############           GITMARSHAL            ##################
+#################################################################
 
-  # spec.add_dependency "example-gem", "~> 1.0"
+Thank you for installing GitMarshal!
 
-  # For more information and examples about making a new gem,
-  # check out our guide at: https://bundler.io/guides/creating_gem.html
+GitMarshal is a command-line tool that allows developers to fetch and display various metrics about GitHub repositories.
+
+In order to use GitMarshal, you need to set up your GitHub access token. Please follow the instructions provided in the README at:
+
+https://github.com/nagstler/gitmarshal#configuration
+
+Enjoy using GitMarshal!
+
+#################################################################
+
+MSG
+
 end
