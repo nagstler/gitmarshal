@@ -1,17 +1,21 @@
-# GitMarshal
+# :octocat: GitMarshal
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Maintainability](https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability)](https://codeclimate.com/github/nagstler/gitmarshal/maintainability) [![CI Build](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml/badge.svg?branch=main)](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml)
 
 GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
 
 Whether you're a developer interested in the activity of a repository or a manager tracking the progress of your project, GitMarshal provides an easy way to fetch this data directly from your command line.
 
-## Features
+## :sparkles: Features
 
-- Fetch and display a summary of your GitHub repositories.
-- Fetch and display detailed metrics for a specific repository, including number of commits, pull requests, issues, stars, and contributors.
-- Easy-to-use command-line interface.
-- Configurable through environment variables.
-- Available as a Ruby gem for easy installation.
+:octocat: Fetch and display a summary of your GitHub repositories.
+
+:bar_chart: Fetch and display detailed metrics for a specific repository, including number of commits, pull requests, issues, stars, and contributors.
+
+:computer: Easy-to-use command-line interface.
+
+:wrench: Configurable through environment variables.
+
+:gem: Available as a Ruby gem for easy installation.
 
 
 ## Table of Contents 
