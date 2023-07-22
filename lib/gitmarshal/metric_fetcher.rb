@@ -1,4 +1,4 @@
-require_relative 'base_fetcher'
+require_relative "base_fetcher"
 
 class MetricFetcher < BaseFetcher
   def fetch_today_commits_count(owner, repo_name)
@@ -43,6 +43,6 @@ class MetricFetcher < BaseFetcher
     response = execute_http_request(req)
     star_data = parse_response(response)
 
-    star_data['stargazers_count']
+    star_data["stargazers_count"]
   end
 end

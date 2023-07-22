@@ -1,4 +1,4 @@
-# :octocat: GitMarshal
+# GitMarshal
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Maintainability](https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability)](https://codeclimate.com/github/nagstler/gitmarshal/maintainability) [![CI Build](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml/badge.svg?branch=main)](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml)
 
 GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
@@ -65,6 +65,7 @@ export GITHUB_TOKEN=your_github_token_here
 Be sure to replace `your_github_token_here` with the token you generated in the Prerequisites step.
 
 ## Usage
+
 Once installed and configured, GitMarshal can be used directly from the command-line as follows:
 
 ### List All Repositories
@@ -79,13 +80,33 @@ This will provide you with a comprehensive list of your repositories and will sh
 
 ### Fetch Metrics for a Specific Repository
 
-To fetch and display metrics for a specific repository, use:
+To fetch and display overall metrics for a specific repository, use:
 
 ```bash
 gitmarshal repo-name
 ```
 
-Replace `repo_name` with the name of the repository for which you wish to fetch metrics.
+Replace `repo-name` with the name of the repository for which you wish to fetch metrics. 
+
+### Fetch Today's Metrics for a Specific Repository
+
+To fetch and display metrics for a specific repository for today only, use:
+
+```bash
+gitmarshal repo-name --today
+```
+
+Replace `repo-name` with the name of the repository for which you wish to fetch today's metrics. 
+
+### Help Command
+
+If you need help with the commands or if you are unsure about the functionality of GitMarshal, use the help command:
+
+```bash
+gitmarshal help
+```
+
+This will display a helpful guide on how to use GitMarshal, its options, and commands.
 
 ## Development
 
@@ -96,8 +117,6 @@ git clone https://github.com/nagstler/gitmarshal.git
 cd gitmarshal
 bundle install
 ```
-
-
 
 You can then run the tests with:
 

@@ -1,110 +1,140 @@
-require 'thor'
-require 'terminal-table'
-require 'colorize'
-require_relative 'github_fetcher'
+require "thor"
+require "terminal-table"
+require "colorize"
+require_relative "github_fetcher"
 
 module GitMarshal
   class CLI < Thor
-    class_option :help, type: :boolean, aliases: '-h', desc: 'Display usage information'
+    class_option :help, type: :boolean, aliases: "-h", desc: "Display usage information"
+    class_option :today, type: :boolean, aliases: "-t", desc: 'Display today\'s repository metrics instead of overall metrics'
 
     desc "repos", "Prints a summary of the authenticated user's GitHub repositories"
+
     def repos
       begin
         fetcher = GithubFetcher.new
         user = fetcher.fetch_user
         repos = fetcher.fetch_repos
-    
+
         puts "GitHub Repositories for #{user}".colorize(:blue).bold
-    
+
         rows = repos.map do |repo|
           [
-            repo['name'],
-            repo['issues'],
-            repo['stargazers'],
-            repo['forks']
+            repo["name"],
+            repo["issues"],
+            repo["stargazers"],
+            repo["forks"],
           ]
         end
-    
+
         table = Terminal::Table.new :title => "Repositories".colorize(:green).bold,
-                                    :headings => ['Name', 'Issues', 'Stargazers', 'Forks'].map { |i| i.colorize(:magenta).bold },
+                                    :headings => ["Name", "Issues", "Stargazers", "Forks"].map { |i| i.colorize(:magenta).bold },
                                     :rows => rows
-    
+
         table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
         puts table
       rescue StandardError => e
         puts "An error occurred: #{e.message}"
       end
     end
-    
 
     def help(*)
-      puts "You can either call ./bin/gitmarshal to list all repositories or ./bin/gitmarshal repo-name to show the metrics of the given repository."
+      rows = []
+      rows << ["gitmarshal", "List all repositories of the authenticated user"]
+      rows << ["gitmarshal repo-name", "Show the overall metrics of the given repository"]
+      rows << ["gitmarshal repo-name --today", "Show today's metrics of the given repository"]
+    
+      table = Terminal::Table.new :rows => rows
+      table.title = "GitMarshal Commands".colorize(:green).bold
+      table.headings = ['Command', 'Description'].map { |i| i.colorize(:magenta).bold }
+      table.style = { :border_x => "=", :border_i => "x", :alignment => :left }
+      puts table
     end
 
     private
 
-    def metrics(repo_name)
+    def metrics(repo_name, today_option = false)
       fetcher = GithubFetcher.new
       user = fetcher.fetch_user
-    
-      repo = fetcher.fetch_repo_metrics(user, repo_name)
-    
-      # Print repository name and other details as introduction
-      puts "GitHub Repository: #{repo['name']}".colorize(:blue).bold
-      puts "Description: #{repo['description']}"
-      puts "Default Branch: #{repo['default_branch']}"
-      puts "Last Updated At: #{repo['last_updated_at']}"
 
-      puts "x======================================x"
+      repo = today_option ? fetcher.fetch_today_repo_metrics(user, repo_name) : fetcher.fetch_repo_metrics(user, repo_name)
 
-      # Display latest commit
-      latest_commit = fetcher.fetch_latest_commit(user, repo_name)
-      if latest_commit
-        puts "Latest Commit:".colorize(:blue).bold
-        puts "Commit Date: #{latest_commit['commit']['committer']['date']}"
-        puts "Commit Message: #{latest_commit['commit']['message']}"
+      if today_option
+        rows = prepare_table_rows_for_today(repo)
+        # Display latest commit
+        latest_commit = fetcher.fetch_latest_commit(user, repo_name)
+        if latest_commit
+          rows << ["Latest Commit Date", latest_commit["commit"]["committer"]["date"]]
+          rows << ["Latest Commit Message", wrap_text(latest_commit["commit"]["message"])]
+        end
+        # Display today's metrics in a table
+        display_table("Today's Repository Metrics", rows)
+      else
+        rows = prepare_table_rows(repo)
+        # Display latest commit
+        latest_commit = fetcher.fetch_latest_commit(user, repo_name)
+        if latest_commit
+          rows << ["Latest Commit Date", latest_commit["commit"]["committer"]["date"]]
+          rows << ["Latest Commit Message", wrap_text(latest_commit["commit"]["message"])]
+        end
+        # Display overall metrics in a table
+        display_table("Repository Metrics", rows)
       end
-      
-      # Display repository metrics in a table
-      rows = [
-        ['Total Commits', repo['commits_count']],
-        ['Pull Requests', repo['pull_requests_count']],
-        ['Forks', repo['forks_count']],
-        ['Watchers', repo['watchers_count']],
-        ['Issues', repo['issues_count']],
-        ['Open Issues', repo['open_issues_count']],
-        ['Closed Issues', repo['closed_issues_count']],
-        ['Open Pull Requests', repo['open_pull_requests_count']],
-        ['Closed Pull Requests', repo['closed_pull_requests_count']],
-        ['Contributors', repo['contributors_count']],
-        ['Stargazers', repo['stargazers_count']]
-      ]
-    
-      table = Terminal::Table.new :title => "Repository Metrics".colorize(:blue).bold, :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta).bold }, :rows => rows
-      table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
-      puts table
-
-      # # Display today's repository metrics in a table
-      # today_rows = [
-      #   ['Today\'s Total Commits', fetcher.fetch_today_commits_count(user, repo_name)],
-      #   ['Today\'s Pull Requests', fetcher.fetch_today_pull_requests_count(user, repo_name)],
-      #   ['Today\'s Closed Pull Requests', fetcher.fetch_today_closed_pull_requests_count(user, repo_name)],
-      #   ['Today\'s Open Pull Requests', fetcher.fetch_today_open_pull_requests_count(user, repo_name)],
-      #   ['Today\'s Issues', fetcher.fetch_today_issues_count(user, repo_name)],
-      #   ['Today\'s Closed Issues', fetcher.fetch_today_closed_issues_count(user, repo_name)],
-      #   ['Today\'s Open Issues', fetcher.fetch_today_open_issues_count(user, repo_name)]
-      # ]
-
-      # today_table = Terminal::Table.new :title => "Today's Repository Metrics".colorize(:green).bold, :headings => ['Metric', 'Count'].map { |i| i.colorize(:magenta).bold }, :rows => today_rows
-      # today_table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
-      # puts today_table
     end
-    
-    
-    
-    def method_missing(method, *_args, &_block)
+
+    private
+
+    def wrap_text(text, max_width = 50)
+      text.gsub(/(.{1,#{max_width}})(\s+|\Z)/, "\\1\n")
+    end
+
+    def prepare_table_rows_for_today(repo)
+      [
+        ["Repository Name", repo["name"]],
+        ["Total Commits", repo["commits_count"].to_s],
+        ["Pull Requests", repo["pull_requests_count"].to_s],
+        ["Forks", repo["forks_count"].to_s],
+        ["Issues", repo["issues_count"].to_s],
+        ["Open Issues", repo["open_issues_count"].to_s],
+        ["Closed Issues", repo["closed_issues_count"].to_s],
+        ["Open Pull Requests", repo["open_pull_requests_count"].to_s],
+        ["Closed Pull Requests", repo["closed_pull_requests_count"].to_s],
+      ]
+    end
+
+    def prepare_table_rows(repo)
+      [
+        ["Repository Name", repo["name"]],
+        ["Default Branch", repo["default_branch"]],
+        ["Last Updated At", repo["last_updated_at"]],
+        ["Total Commits", repo["commits_count"].to_s],
+        ["Pull Requests", repo["pull_requests_count"].to_s],
+        ["Forks", repo["forks_count"].to_s],
+        ["Watchers", repo["watchers_count"].to_s],
+        ["Issues", repo["issues_count"].to_s],
+        ["Open Issues", repo["open_issues_count"].to_s],
+        ["Closed Issues", repo["closed_issues_count"].to_s],
+        ["Open Pull Requests", repo["open_pull_requests_count"].to_s],
+        ["Closed Pull Requests", repo["closed_pull_requests_count"].to_s],
+        ["Contributors", repo["contributors_count"].to_s],
+        ["Stargazers", repo["stargazers_count"].to_s],
+      ]
+    end
+
+    def display_table(title, rows)
+      table = Terminal::Table.new :title => title.colorize(:blue).bold,
+                                  :headings => ["Metric", "Data"].map { |i| i.colorize(:magenta).bold },
+                                  :rows => rows
+
+      table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
+
+      puts table
+    end
+
+    def method_missing(method, *args, &_block)
       if method =~ /[-a-zA-Z0-9_.]+/
-        metrics(method.to_s)
+        today_option = args.include?("--today")
+        metrics(method.to_s, today_option)
       else
         super
       end
