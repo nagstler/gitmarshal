@@ -9,7 +9,6 @@ module GitMarshal
     class_option :today, type: :boolean, aliases: "-t", desc: 'Display today\'s repository metrics instead of overall metrics'
 
     desc "repos", "Prints a summary of the authenticated user's GitHub repositories"
-
     def repos
       begin
         fetcher = GithubFetcher.new
@@ -27,7 +26,7 @@ module GitMarshal
           ]
         end
 
-        table = Terminal::Table.new :title => "Repositories".colorize(:green).bold,
+        table = Terminal::Table.new :title => "Repositories".colorize(:blue).bold,
                                     :headings => ["Name", "Issues", "Stargazers", "Forks"].map { |i| i.colorize(:magenta).bold },
                                     :rows => rows
 
@@ -43,10 +42,10 @@ module GitMarshal
       rows << ["gitmarshal", "List all repositories of the authenticated user"]
       rows << ["gitmarshal repo-name", "Show the overall metrics of the given repository"]
       rows << ["gitmarshal repo-name --today", "Show today's metrics of the given repository"]
-    
+
       table = Terminal::Table.new :rows => rows
-      table.title = "GitMarshal Commands".colorize(:green).bold
-      table.headings = ['Command', 'Description'].map { |i| i.colorize(:magenta).bold }
+      table.title = "GitMarshal Commands".colorize(:blue).bold
+      table.headings = ["Command", "Description"].map { |i| i.colorize(:magenta).bold }
       table.style = { :border_x => "=", :border_i => "x", :alignment => :left }
       puts table
     end
