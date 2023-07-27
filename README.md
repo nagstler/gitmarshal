@@ -1,9 +1,28 @@
-# GitMarshal
-[![Gem Version](https://badge.fury.io/rb/gitmarshal.svg)](https://badge.fury.io/rb/gitmarshal) [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Maintainability](https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability)](https://codeclimate.com/github/nagstler/gitmarshal/maintainability) [![CI Build](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml/badge.svg?branch=main)](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml)
+<h1 align="center">
+  GitMarshal
+</h1>
 
+<p align="center">
+  <img src="https://github.com/nagstler/gitmarshal/assets/1298480/b488174b-7a33-4932-ada8-1b34f641b2a5.gif" alt="animated" />
+</p>
+
+
+<p align="center">
 GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
-
 Whether you're a developer interested in the activity of a repository or a manager tracking the progress of your project, GitMarshal provides an easy way to fetch this data directly from your command line.
+</p>
+
+
+<p align="center">
+  <a href="https://badge.fury.io/rb/gitmarshal"><img src="https://badge.fury.io/rb/gitmarshal.svg" alt="Gem Version"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+  <a href="https://codeclimate.com/github/nagstler/gitmarshal/maintainability"><img src="https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability" alt="Maintainability"></a>
+  <a href="https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml"><img src="https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml/badge.svg?branch=main" alt="CI Build"></a>
+</p>
+
+
+
+
 
 ## :sparkles: Features
 
