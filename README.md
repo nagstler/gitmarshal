@@ -1,9 +1,28 @@
-# GitMarshal
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Maintainability](https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability)](https://codeclimate.com/github/nagstler/gitmarshal/maintainability) [![CI Build](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml/badge.svg?branch=main)](https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml)
+<h1 align="center">
+  GitMarshal
+</h1>
 
+<p align="center">
+  <img src="https://github.com/nagstler/gitmarshal/assets/1298480/b488174b-7a33-4932-ada8-1b34f641b2a5.gif" alt="animated" />
+</p>
+
+
+<p align="center">
 GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
-
 Whether you're a developer interested in the activity of a repository or a manager tracking the progress of your project, GitMarshal provides an easy way to fetch this data directly from your command line.
+</p>
+
+
+<p align="center">
+  <a href="https://badge.fury.io/rb/gitmarshal"><img src="https://badge.fury.io/rb/gitmarshal.svg" alt="Gem Version"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+  <a href="https://codeclimate.com/github/nagstler/gitmarshal/maintainability"><img src="https://api.codeclimate.com/v1/badges/a9c81f4f449374df1e0c/maintainability" alt="Maintainability"></a>
+  <a href="https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml"><img src="https://github.com/nagstler/gitmarshal/actions/workflows/gem-push.yml/badge.svg?branch=main" alt="CI Build"></a>
+</p>
+
+
+
+
 
 ## :sparkles: Features
 
@@ -28,22 +47,42 @@ Whether you're a developer interested in the activity of a repository or a manag
 - [License](#license)
 
 ## Prerequisites
+### 1. Verify Ruby Installation
 
-Before installing GitMarshal, make sure you have Ruby installed in your system. If you're unsure, you can check this by running the following command in your terminal:
+Before installing GitMarshal, ensure Ruby (version 2.5 or later) is installed on your system. Check your Ruby version using:
 
 ```bash
 ruby -v
 ```
 
-If Ruby is installed, you should see its version. GitMarshal requires Ruby version 2.5 or later.
+### 2. Install Ruby (If Not Installed)
 
-In addition to Ruby, you will need a GitHub access token to use GitMarshal. Here's how you can generate one: 
-1. Visit the following URL: [https://github.com/settings/tokens/new](https://github.com/settings/tokens/new)
-2. Enter a Note (this can be anything, e.g., "For GitMarshal").
-3. Under "Select scopes", check the "repo" option.
-4. Click on "Generate token" at the bottom.
+If Ruby is not installed or the version is below 2.5, follow the instructions below to install or upgrade Ruby:
+#### Ubuntu
 
-Remember to save the generated token as you will need it during the configuration step.
+```bash
+sudo apt-get update
+sudo apt-get install ruby-full
+```
+
+#### MacOS
+
+```bash
+brew install ruby
+```
+
+#### Windows
+
+Follow the instructions on the [Ruby Installer download page](https://rubyinstaller.org/downloads/) .
+### 3. Generate GitHub Access Token
+
+To use GitMarshal, generate a GitHub access token: 
+1. Visit [GitHub Tokens New](https://github.com/settings/tokens/new)
+2. Enter a Note (e.g., "For GitMarshal").
+3. Check the "repo" option under "Select scopes".
+4. Click "Generate token" and save the generated token for configuration.
+
+Now, with Ruby installed and a GitHub token generated, you are ready to install and configure GitMarshal.
 
 ## Installation
 
@@ -52,6 +91,7 @@ GitMarshal can be installed directly as a Ruby gem. To do so, simply run the fol
 ```bash
 gem install gitmarshal
 ```
+
 This command will download and install the GitMarshal gem onto your system.
 
 ## Configuration
