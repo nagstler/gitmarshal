@@ -9,6 +9,7 @@ module GitMarshal
     class_option :today, type: :boolean, aliases: "-t", desc: 'Display today\'s repository metrics instead of overall metrics'
 
     desc "repos", "Prints a summary of the authenticated user's GitHub repositories"
+
     def repos
       begin
         fetcher = GithubFetcher.new
