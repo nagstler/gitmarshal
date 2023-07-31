@@ -3,11 +3,6 @@
 </h1>
 
 <p align="center">
-  <img src="https://github.com/nagstler/gitmarshal/assets/1298480/b488174b-7a33-4932-ada8-1b34f641b2a5.gif" alt="animated" />
-</p>
-
-
-<p align="center">
 GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
 Whether you're a developer interested in the activity of a repository or a manager tracking the progress of your project, GitMarshal provides an easy way to fetch this data directly from your command line.
 </p>
@@ -110,6 +105,8 @@ Once installed and configured, GitMarshal can be used directly from the command-
 
 ### List All Repositories
 
+![list-all](https://github.com/nagstler/gitmarshal/assets/1298480/e9f25862-dca6-42e2-9089-25859fe3fab0)
+
 To fetch and display a summary of all your GitHub repositories, run:
 
 ```bash
@@ -129,6 +126,9 @@ gitmarshal repo-name
 Replace `repo-name` with the name of the repository for which you wish to fetch metrics. 
 
 ### Fetch Today's Metrics for a Specific Repository
+
+![repo-metrics](https://github.com/nagstler/gitmarshal/assets/1298480/d30e9a1c-9c63-4d28-824e-4c73a95997a7)
+
 
 To fetch and display metrics for a specific repository for today only, use:
 
