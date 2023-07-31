@@ -117,6 +117,8 @@ This will provide you with a comprehensive list of your repositories and will sh
 
 ### Fetch Metrics for a Specific Repository
 
+![repo-metrics](https://github.com/nagstler/gitmarshal/assets/1298480/d30e9a1c-9c63-4d28-824e-4c73a95997a7)
+
 To fetch and display overall metrics for a specific repository, use:
 
 ```bash
@@ -126,8 +128,6 @@ gitmarshal repo-name
 Replace `repo-name` with the name of the repository for which you wish to fetch metrics. 
 
 ### Fetch Today's Metrics for a Specific Repository
-
-![repo-metrics](https://github.com/nagstler/gitmarshal/assets/1298480/d30e9a1c-9c63-4d28-824e-4c73a95997a7)
 
 
 To fetch and display metrics for a specific repository for today only, use:
