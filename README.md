@@ -127,16 +127,19 @@ gitmarshal repo-name
 
 Replace `repo-name` with the name of the repository for which you wish to fetch metrics. 
 
-### Fetch Today's Metrics for a Specific Repository
+### Available Options
 
-
-To fetch and display metrics for a specific repository for today only, use:
+#### Fetch Today's Metrics for a Specific Repository `-t`
 
 ```bash
-gitmarshal repo-name --today
+gitmarshal repo-name -t
 ```
 
-Replace `repo-name` with the name of the repository for which you wish to fetch today's metrics. 
+#### Fetch Commit History `-ch`
+
+```bash
+gitmarshal repo-name -ch
+```
 
 ### Help Command
 

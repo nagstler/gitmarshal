@@ -165,8 +165,8 @@ module GitMarshal
 
     def method_missing(method, *args, &_block)
       if method =~ /[-a-zA-Z0-9_.]+/
-        today_option = args.include?("-t")
-        commit_history_option = args.include?("-ch")
+        today_option = args.include?("-t") ? args.include?("-t") : args.include?("--today")
+        commit_history_option = args.include?("-ch") ? args.include?("-ch") : args.include?("--commit-history")
         metrics(method.to_s, today_option, commit_history_option)
       else
         super
