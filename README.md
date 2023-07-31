@@ -131,7 +131,7 @@ Replace `repo-name` with the name of the repository for which you wish to fetch 
 
 #### `-t`
 
-Fetch Today's Metrics for a Specific Repository
+Fetch Today's Metrics
 
 ```bash
 gitmarshal repo-name -t
