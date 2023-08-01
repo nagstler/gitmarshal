@@ -23,6 +23,16 @@ class GithubFetcher
     end
   end
 
+  def fetch_commit_history(user, repo_name)
+    commit_history = {}
+    since_date = (Date.today - 30).to_s
+    Octokit.commits_since("#{user}/#{repo_name}", since_date).each do |commit|
+      date = commit.commit.committer.date.to_date.to_s
+      commit_history[date] = commit_history.fetch(date, 0) + 1
+    end
+    commit_history
+  end
+
   def fetch_today_repo_metrics(user, repo_name)
     {
       "name" => repo_name,

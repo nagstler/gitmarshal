@@ -3,11 +3,6 @@
 </h1>
 
 <p align="center">
-  <img src="https://github.com/nagstler/gitmarshal/assets/1298480/b488174b-7a33-4932-ada8-1b34f641b2a5.gif" alt="animated" />
-</p>
-
-
-<p align="center">
 GitMarshal is a command-line interface (CLI) to extract and display various statistics about GitHub repositories. The metrics it retrieves include the number of commits, pull requests, issues, stars, and contributors.
 Whether you're a developer interested in the activity of a repository or a manager tracking the progress of your project, GitMarshal provides an easy way to fetch this data directly from your command line.
 </p>
@@ -116,6 +111,8 @@ To fetch and display a summary of all your GitHub repositories, run:
 gitmarshal
 ```
 
+![list-all](https://github.com/nagstler/gitmarshal/assets/1298480/e9f25862-dca6-42e2-9089-25859fe3fab0)
+
 This will provide you with a comprehensive list of your repositories and will show the number of issues, stars, and forks for each repository.
 
 ### Fetch Metrics for a Specific Repository
@@ -126,17 +123,32 @@ To fetch and display overall metrics for a specific repository, use:
 gitmarshal repo-name
 ```
 
+![repo-metrics](https://github.com/nagstler/gitmarshal/assets/1298480/d30e9a1c-9c63-4d28-824e-4c73a95997a7)
+
 Replace `repo-name` with the name of the repository for which you wish to fetch metrics. 
 
-### Fetch Today's Metrics for a Specific Repository
+### Available Options
 
-To fetch and display metrics for a specific repository for today only, use:
+#### `-t`
+
+Fetch Today's Metrics
 
 ```bash
-gitmarshal repo-name --today
+gitmarshal repo-name -t
 ```
 
-Replace `repo-name` with the name of the repository for which you wish to fetch today's metrics. 
+![today](https://github.com/nagstler/gitmarshal/assets/1298480/45b62c48-4c01-46e7-9180-5f6b63046df9)
+
+
+#### `-ch` 
+
+Fetch Commit History 
+
+```bash
+gitmarshal repo-name -ch
+```
+
+![ch](https://github.com/nagstler/gitmarshal/assets/1298480/ae690aab-9625-410a-812f-73a736e13949)
 
 ### Help Command
 
