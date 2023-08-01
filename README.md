@@ -105,25 +105,25 @@ Once installed and configured, GitMarshal can be used directly from the command-
 
 ### List All Repositories
 
-![list-all](https://github.com/nagstler/gitmarshal/assets/1298480/e9f25862-dca6-42e2-9089-25859fe3fab0)
-
 To fetch and display a summary of all your GitHub repositories, run:
 
 ```bash
 gitmarshal
 ```
 
+![list-all](https://github.com/nagstler/gitmarshal/assets/1298480/e9f25862-dca6-42e2-9089-25859fe3fab0)
+
 This will provide you with a comprehensive list of your repositories and will show the number of issues, stars, and forks for each repository.
 
 ### Fetch Metrics for a Specific Repository
-
-![repo-metrics](https://github.com/nagstler/gitmarshal/assets/1298480/d30e9a1c-9c63-4d28-824e-4c73a95997a7)
 
 To fetch and display overall metrics for a specific repository, use:
 
 ```bash
 gitmarshal repo-name
 ```
+
+![repo-metrics](https://github.com/nagstler/gitmarshal/assets/1298480/d30e9a1c-9c63-4d28-824e-4c73a95997a7)
 
 Replace `repo-name` with the name of the repository for which you wish to fetch metrics. 
 
