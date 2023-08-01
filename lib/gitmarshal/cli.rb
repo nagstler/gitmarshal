@@ -55,50 +55,65 @@ module GitMarshal
     end
 
     private
-
     def metrics(repo_name, today_option = false, commit_history_option = false)
       fetcher = GithubFetcher.new
       user = fetcher.fetch_user
-
-      repo = today_option ? fetcher.fetch_today_repo_metrics(user, repo_name) : fetcher.fetch_repo_metrics(user, repo_name)
-
+    
       if today_option
-        rows = prepare_table_rows_for_today(repo)
-        # Display latest commit
-        latest_commit = fetcher.fetch_latest_commit(user, repo_name)
-        if latest_commit
-          rows << ["Latest Commit Date", latest_commit["commit"]["committer"]["date"]]
-          rows << ["Latest Commit Message", wrap_text(latest_commit["commit"]["message"])]
-        end
-        # Display today's metrics in a table
-        display_table("Today's Repository Metrics", rows)
+        display_today_metrics(fetcher, user, repo_name)
       elsif commit_history_option
-        commit_history = fetcher.fetch_commit_history(user, repo_name)
-
-        # Prepare table rows for commit history
-        rows = commit_history.map do |date, commit_count|
-          [date, commit_count]
-        end
-
-        # Sort rows by date in descending order
-        rows.sort_by! { |row| -Date.parse(row.first).to_time.to_i }
-
-        # Display commit history in a table
-        display_commit_history_table(rows)
+        display_commit_history(fetcher, user, repo_name)
       else
-        rows = prepare_table_rows(repo)
-        # Display latest commit
-        latest_commit = fetcher.fetch_latest_commit(user, repo_name)
-        if latest_commit
-          rows << ["Latest Commit Date", latest_commit["commit"]["committer"]["date"]]
-          rows << ["Latest Commit Message", wrap_text(latest_commit["commit"]["message"])]
-        end
-        # Display overall metrics in a table
-        display_table("Repository Metrics", rows)
+        display_overall_metrics(fetcher, user, repo_name)
       end
     end
 
-    private
+    def display_today_metrics(fetcher, user, repo_name)
+      repo = fetcher.fetch_today_repo_metrics(user, repo_name)
+    
+      rows = prepare_table_rows_for_today(repo)
+    
+      # Display latest commit
+      latest_commit = fetcher.fetch_latest_commit(user, repo_name)
+      if latest_commit
+        rows << ["Latest Commit Date", latest_commit["commit"]["committer"]["date"]]
+        rows << ["Latest Commit Message", wrap_text(latest_commit["commit"]["message"])]
+      end
+    
+      # Display today's metrics in a table
+      display_table("Today's Repository Metrics", rows)
+    end
+    
+    def display_commit_history(fetcher, user, repo_name)
+      commit_history = fetcher.fetch_commit_history(user, repo_name)
+    
+      # Prepare table rows for commit history
+      rows = commit_history.map do |date, commit_count|
+        [date, commit_count]
+      end
+    
+      # Sort rows by date in descending order
+      rows.sort_by! { |row| -Date.parse(row.first).to_time.to_i }
+    
+      # Display commit history in a table
+      display_commit_history_table(rows)
+    end
+    
+    def display_overall_metrics(fetcher, user, repo_name)
+      repo = fetcher.fetch_repo_metrics(user, repo_name)
+    
+      rows = prepare_table_rows(repo)
+    
+      # Display latest commit
+      latest_commit = fetcher.fetch_latest_commit(user, repo_name)
+      if latest_commit
+        rows << ["Latest Commit Date", latest_commit["commit"]["committer"]["date"]]
+        rows << ["Latest Commit Message", wrap_text(latest_commit["commit"]["message"])]
+      end
+    
+      # Display overall metrics in a table
+      display_table("Repository Metrics", rows)
+    end
 
     def wrap_text(text, max_width = 50)
       text.gsub(/(.{1,#{max_width}})(\s+|\Z)/, "\\1\n")
