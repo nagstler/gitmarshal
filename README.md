@@ -137,6 +137,9 @@ Fetch Today's Metrics
 gitmarshal repo-name -t
 ```
 
+![today](https://github.com/nagstler/gitmarshal/assets/1298480/45b62c48-4c01-46e7-9180-5f6b63046df9)
+
+
 #### `-ch` 
 
 Fetch Commit History 
