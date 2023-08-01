@@ -1,15 +1,14 @@
 require "thor"
 require "terminal-table"
 require "colorize"
-require 'unicode_plot'
+require "unicode_plot"
 require_relative "github_fetcher"
-
 
 module GitMarshal
   class CLI < Thor
     class_option :help, type: :boolean, aliases: "-h", desc: "Display usage information"
     class_option :today, type: :boolean, aliases: "-t", desc: 'Display today\'s repository metrics instead of overall metrics'
-    class_option :commit_history, type: :boolean, aliases: "-ch", desc: 'Display the commit history of the repository'
+    class_option :commit_history, type: :boolean, aliases: "-ch", desc: "Display the commit history of the repository"
 
     desc "repos", "Prints a summary of the authenticated user's GitHub repositories"
 
@@ -43,13 +42,14 @@ module GitMarshal
 
     def help(*)
       rows = []
-      rows << ["gitmarshal", "List all repositories of the authenticated user"]
-      rows << ["gitmarshal repo-name", "Show the overall metrics of the given repository"]
-      rows << ["gitmarshal repo-name --today", "Show today's metrics of the given repository"]
+      rows << ["gitmarshal", " ", "Display all repositories associated with the authenticated user."]
+      rows << ["gitmarshal repo-name", " ", "Display the overall metrics for the specified repository."]
+      rows << ["gitmarshal repo-name", "-t", "Display the current day's metrics for the specified repository."]
+      rows << ["gitmarshal repo-name", "-ch", "Display the commit history grouped by days for the given repository."]
 
       table = Terminal::Table.new :rows => rows
       table.title = "GitMarshal Commands".colorize(:blue).bold
-      table.headings = ["Command", "Description"].map { |i| i.colorize(:magenta).bold }
+      table.headings = ["Command", "Options", "Description"].map { |i| i.colorize(:magenta).bold }
       table.style = { :border_x => "=", :border_i => "x", :alignment => :left }
       puts table
     end
@@ -61,7 +61,6 @@ module GitMarshal
       user = fetcher.fetch_user
 
       repo = today_option ? fetcher.fetch_today_repo_metrics(user, repo_name) : fetcher.fetch_repo_metrics(user, repo_name)
-
 
       if today_option
         rows = prepare_table_rows_for_today(repo)
