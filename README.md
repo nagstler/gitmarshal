@@ -16,9 +16,6 @@ Whether you're a developer interested in the activity of a repository or a manag
 </p>
 
 
-
-
-
 ## :sparkles: Features
 
 :octocat: Fetch and display a summary of your GitHub repositories.
@@ -88,6 +85,20 @@ gem install gitmarshal
 ```
 
 This command will download and install the GitMarshal gem onto your system.
+
+To check the installed version of GitMarshal, use the command:
+
+```bash
+gitmarshal --version
+```
+
+This will display the currently installed version of GitMarshal. If you need to update GitMarshal to the latest version, run the following command:
+
+```bash
+gem update gitmarshal
+```
+
+This will fetch the latest version of GitMarshal from RubyGems and install it on your system.
 
 ## Configuration
 
