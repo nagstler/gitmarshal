@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "colorize", "~> 0.8"
   spec.add_dependency "octokit", "~> 4.0"
   spec.add_dependency "faraday-retry", "~> 2.0"
+  spec.add_dependency "unicode_plot", "~> 0.0.5"
 
   # Development Dependencies
   spec.add_development_dependency "rspec", "~> 3.10"
