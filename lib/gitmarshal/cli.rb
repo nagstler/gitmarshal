@@ -3,15 +3,21 @@ require "terminal-table"
 require "colorize"
 require "unicode_plot"
 require_relative "github_fetcher"
+require_relative "version.rb"
 
 module GitMarshal
   class CLI < Thor
     class_option :help, type: :boolean, aliases: "-h", desc: "Display usage information"
     class_option :today, type: :boolean, aliases: "-t", desc: 'Display today\'s repository metrics instead of overall metrics'
     class_option :commit_history, type: :boolean, aliases: "-ch", desc: "Display the commit history of the repository"
+    map %w[--version -v] => :version
+
+    desc "version", "Display the version number of GitMarshal."
+    def version
+      puts "GitMarshal Version #{Gitmarshal::VERSION}"
+    end
 
     desc "repos", "Prints a summary of the authenticated user's GitHub repositories"
-
     def repos
       begin
         fetcher = GithubFetcher.new
