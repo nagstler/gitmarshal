@@ -145,6 +145,8 @@ Fetch Commit History
 gitmarshal repo-name -ch
 ```
 
+![ch](https://github.com/nagstler/gitmarshal/assets/1298480/ae690aab-9625-410a-812f-73a736e13949)
+
 ### Help Command
 
 If you need help with the commands or if you are unsure about the functionality of GitMarshal, use the help command:
