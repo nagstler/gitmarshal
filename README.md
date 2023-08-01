@@ -199,6 +199,14 @@ Your contributions to further improve GitMarshal are most welcome. Whether it's 
 
 We aim to maintain a welcoming and inclusive environment for collaboration, and all contributors are expected to adhere to the [Contributor Covenant](https://www.contributor-covenant.org/)  code of conduct.
 
+## 🌟 Show Your Support
+
+If you find GitMarshal helpful and are using it in your projects, please consider giving it a star ⭐ on GitHub.
+
+If you want to keep up with the latest updates, please follow the repository.
+
+Thank you for your support!
+
 ## License
 
 GitMarshal is open-source and available under the terms of the [MIT License](https://opensource.org/licenses/MIT) .
