@@ -5,6 +5,9 @@ require "unicode_plot"
 require_relative "github_fetcher"
 require_relative "version.rb"
 
+# Explicitly create an alias for Terminal::Table
+TerminalTable = Terminal::Table
+
 module GitMarshal
   class CLI < Thor
     class_option :help, type: :boolean, aliases: "-h", desc: "Display usage information"
@@ -23,9 +26,9 @@ module GitMarshal
         fetcher = GithubFetcher.new
         user = fetcher.fetch_user
         repos = fetcher.fetch_repos
-
+    
         puts "GitHub Repositories for #{user}".colorize(:blue).bold
-
+    
         rows = repos.map do |repo|
           [
             repo["name"],
@@ -34,12 +37,14 @@ module GitMarshal
             repo["forks"],
           ]
         end
-
-        table = Terminal::Table.new :title => "Repositories".colorize(:blue).bold,
-                                    :headings => ["Name", "Issues", "Stargazers", "Forks"].map { |i| i.colorize(:magenta).bold },
-                                    :rows => rows
-
-        table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
+    
+        table = TerminalTable.new(
+          title: "Repositories".colorize(:blue).bold,
+          headings: ["Name", "Issues", "Stargazers", "Forks"].map { |i| i.colorize(:magenta).bold },
+          rows: rows
+        )
+    
+        table.style = { border_x: "=", border_i: "x", alignment: :center }
         puts table
       rescue StandardError => e
         puts "An error occurred: #{e.message}"
@@ -52,11 +57,11 @@ module GitMarshal
       rows << ["gitmarshal repo-name", " ", "Display the overall metrics for the specified repository."]
       rows << ["gitmarshal repo-name", "-t", "Display the current day's metrics for the specified repository."]
       rows << ["gitmarshal repo-name", "-ch", "Display the commit history grouped by days for the given repository."]
-
-      table = Terminal::Table.new :rows => rows
+    
+      table = TerminalTable.new(rows: rows)
       table.title = "GitMarshal Commands".colorize(:blue).bold
       table.headings = ["Command", "Options", "Description"].map { |i| i.colorize(:magenta).bold }
-      table.style = { :border_x => "=", :border_i => "x", :alignment => :left }
+      table.style = { border_x: "=", border_i: "x", alignment: :left }
       puts table
     end
 
@@ -174,12 +179,14 @@ module GitMarshal
     end
 
     def display_table(title, rows)
-      table = Terminal::Table.new :title => title.colorize(:blue).bold,
-                                  :headings => ["Metric", "Data"].map { |i| i.colorize(:magenta).bold },
-                                  :rows => rows
-
-      table.style = { :border_x => "=", :border_i => "x", :alignment => :center }
-
+      table = TerminalTable.new(
+        title: title.colorize(:blue).bold,
+        headings: ["Metric", "Data"].map { |i| i.colorize(:magenta).bold },
+        rows: rows
+      )
+    
+      table.style = { border_x: "=", border_i: "x", alignment: :center }
+    
       puts table
     end
 

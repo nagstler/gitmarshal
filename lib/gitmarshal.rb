@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "gitmarshal/version"
+require 'gitmarshal/version'
+require 'gitmarshal/cli'
+require 'gitmarshal/github_fetcher'
 
 module Gitmarshal
   class Error < StandardError; end
